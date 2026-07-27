@@ -60,3 +60,117 @@
 # YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
 # =============================================================================
 
+def read_matrix(rows, cols, name="matrix"):
+    print(f"\nEnter {name} ({rows}x{cols}):")
+    matrix = []
+    for i in range(rows):
+        while True:
+            row_input = input(f"Enter row {i + 1}: ").split()
+            if len(row_input) != cols:
+                print(f"Please enter exactly {cols} numbers.")
+                continue
+            matrix.append([float(x) for x in row_input])
+            break
+    return matrix
+
+
+def print_matrix(matrix, title="Matrix"):
+    print(f"\n{title}:")
+    for row in matrix:
+        print(" ".join(f"{val:8g}" for val in row))
+
+
+def transpose(matrix):
+    rows = len(matrix)
+    cols = len(matrix[0])
+    result = [[0] * rows for _ in range(cols)]
+    for i in range(rows):
+        for j in range(cols):
+            result[j][i] = matrix[i][j]
+    return result
+
+
+def add_matrices(a, b):
+    rows = len(a)
+    cols = len(a[0])
+    result = [[0] * cols for _ in range(rows)]
+    for i in range(rows):
+        for j in range(cols):
+            result[i][j] = a[i][j] + b[i][j]
+    return result
+
+
+def multiply_matrices(a, b):
+    rows_a = len(a)
+    cols_a = len(a[0])
+    cols_b = len(b[0])
+    result = [[0] * cols_b for _ in range(rows_a)]
+    for i in range(rows_a):
+        for j in range(cols_b):
+            total = 0
+            for k in range(cols_a):
+                total += a[i][k] * b[k][j]
+            result[i][j] = total
+    return result
+
+
+def get_dimensions(prompt="matrix"):
+    rows = int(input(f"Enter number of rows for {prompt}: "))
+    cols = int(input(f"Enter number of columns for {prompt}: "))
+    return rows, cols
+
+
+def part_a_transpose():
+    print("\n--- PART A: TRANSPOSE ---")
+    rows, cols = get_dimensions("the matrix")
+    matrix = read_matrix(rows, cols)
+    print_matrix(matrix, "Original Matrix")
+    result = transpose(matrix)
+    print_matrix(result, "Transposed Matrix")
+
+
+def part_b_add():
+    print("\n--- PART B: ADDITION ---")
+    rows, cols = get_dimensions("both matrices (same size)")
+    matrix_a = read_matrix(rows, cols, "Matrix A")
+    matrix_b = read_matrix(rows, cols, "Matrix B")
+    print_matrix(matrix_a, "Matrix A")
+    print_matrix(matrix_b, "Matrix B")
+    result = add_matrices(matrix_a, matrix_b)
+    print_matrix(result, "Sum (A + B)")
+
+
+def part_c_multiply():
+    print("\n--- PART C: MULTIPLICATION ---")
+    m, n = get_dimensions("Matrix A (M x N)")
+    matrix_a = read_matrix(m, n, "Matrix A")
+
+    print(f"\nMatrix B must have {n} rows (to match Matrix A's columns).")
+    p = int(input("Enter number of columns for Matrix B: "))
+    matrix_b = read_matrix(n, p, "Matrix B")
+
+    print_matrix(matrix_a, "Matrix A")
+    print_matrix(matrix_b, "Matrix B")
+    result = multiply_matrices(matrix_a, matrix_b)
+    print_matrix(result, "Product (A x B)")
+
+
+def main():
+    print("Matrix Operations")
+    print("1. Transpose a Matrix")
+    print("2. Add Two Matrices")
+    print("3. Multiply Two Matrices")
+    choice = input("Choose an operation (1/2/3): ").strip()
+
+    if choice == "1":
+        part_a_transpose()
+    elif choice == "2":
+        part_b_add()
+    elif choice == "3":
+        part_c_multiply()
+    else:
+        print("Invalid choice.")
+
+
+if __name__ == "__main__":
+    main()
