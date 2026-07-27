@@ -68,3 +68,91 @@
 # YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
 # =============================================================================
 
+def add(a, b):
+    return a + b
+
+
+def subtract(a, b):
+    return a - b
+
+
+def multiply(a, b):
+    return a * b
+
+
+def divide(a, b):
+    """Divide a by b, raising ValueError on division by zero."""
+    if b == 0:
+        raise ValueError("Cannot divide by zero.")
+    return round(a / b, 2)
+
+
+def modulus(a, b):
+    if b == 0:
+        raise ValueError("Cannot compute modulus with zero divisor.")
+    return a % b
+
+
+def exponentiate(a, b):
+    return a ** b
+
+
+def get_numbers():
+    """Prompt for and return two numbers from the user."""
+    first = float(input("Enter first number : "))
+    second = float(input("Enter second number: "))
+    return first, second
+
+
+def print_menu():
+    print("\n============================")
+    print("     SIMPLE CALCULATOR")
+    print("============================")
+    print("1. Addition")
+    print("2. Subtraction")
+    print("3. Multiplication")
+    print("4. Division")
+    print("5. Modulus")
+    print("6. Exponentiation")
+    print("7. Quit")
+
+
+def format_number(num):
+    """Display whole numbers without a trailing .0"""
+    return int(num) if num == int(num) else num
+
+
+def main():
+    operations = {
+        "1": ("+", add),
+        "2": ("-", subtract),
+        "3": ("*", multiply),
+        "4": ("/", divide),
+        "5": ("%", modulus),
+        "6": ("**", exponentiate),
+    }
+
+    while True:
+        print_menu()
+        choice = input("Select an operation (1-7): ").strip()
+
+        if choice == "7":
+            print("Goodbye!")
+            break
+
+        if choice not in operations:
+            print("Error: Invalid choice. Please select a number between 1 and 7.")
+            continue
+
+        symbol, operation = operations[choice]
+
+        try:
+            a, b = get_numbers()
+            result = operation(a, b)
+            print(f"Result: {format_number(a)} {symbol} {format_number(b)} = {format_number(result)}")
+        except ValueError as e:
+            print(f"Error: {e}")
+
+
+if __name__ == "__main__":
+    main()
