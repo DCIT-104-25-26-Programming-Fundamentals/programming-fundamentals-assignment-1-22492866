@@ -46,6 +46,7 @@
 # =============================================================================
 
 def get_grade(score):
+    """Return the letter grade for a valid score (0-100), or None if invalid."""
     if score < 0 or score > 100:
         return None
     elif score >= 80:
