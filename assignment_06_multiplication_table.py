@@ -55,50 +55,46 @@
 # YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
 # =============================================================================
 
-def print_table(number):
-    """Print the multiplication table for a single number, 1 to 12."""
-    print(f"Multiplication Table for {number}:")
+
+# -----------------------------------------------------------------------------
+# PART A — Single Table
+# -----------------------------------------------------------------------------
+def print_single_table(num):
+    """Prints the multiplication table for a given number from 1 to 12."""
+    print(f"\nMultiplication Table for {num}:")
     for i in range(1, 13):
-        print(f"{number:2} x {i:2} = {number * i}")
+        print(f"{num}  x  {i:<2} =  {num * i}")
 
 
-def part_a_single_table():
-    number = int(input("Enter a number: "))
-    print()
-    print_table(number)
-
-
+# -----------------------------------------------------------------------------
+# PART B — Bonus: Tables from 1 to N
+# -----------------------------------------------------------------------------
 def print_tables_up_to_n(n):
-    """Print multiplication tables for every number from 1 to n."""
-    for number in range(1, n + 1):
-        print_table(number)
-        if number != n:
-            print("-" * 27)
-
-
-def part_b_tables_range():
-    n = int(input("Enter a number N: "))
-
-    if n <= 0:
-        print("Error: N must be a positive integer.")
-        return
-
-    print()
-    print_tables_up_to_n(n)
+    """Prints the full multiplication table for every number from 1 to N."""
+    for num in range(1, n + 1):
+        print_single_table(num)
+        if num < n:
+            print("---------------------------")
 
 
 def main():
-    print("Multiplication Table Generator")
-    print("1. Single table")
-    print("2. Tables from 1 to N (bonus)")
-    choice = input("Choose an option (1/2): ").strip()
+    try:
+        num = int(input("Enter a positive integer: "))
+        if num <= 0:
+            print("Error: Please enter a positive integer greater than 0.")
+            return
+    except ValueError:
+        print("Error: Invalid input. Please enter an integer.")
+        return
 
-    if choice == "1":
-        part_a_single_table()
-    elif choice == "2":
-        part_b_tables_range()
-    else:
-        print("Invalid choice.")
+    # Execute Part A
+    print_single_table(num)
+
+    # Execute Part B
+    print("\n" + "=" * 27)
+    print(f"GENERATING ALL TABLES FROM 1 TO {num}")
+    print("=" * 27)
+    print_tables_up_to_n(num)
 
 
 if __name__ == "__main__":
