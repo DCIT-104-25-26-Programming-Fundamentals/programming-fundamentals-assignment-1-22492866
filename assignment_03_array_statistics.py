@@ -40,6 +40,7 @@
 # =============================================================================
 
 def calculate_sum(numbers):
+    """Calculates and returns the sum of numbers using a loop."""
     total = 0
     for num in numbers:
         total += num
@@ -47,42 +48,50 @@ def calculate_sum(numbers):
 
 
 def calculate_average(numbers):
-    return calculate_sum(numbers) / len(numbers)
+    """Calculates and returns the average of numbers."""
+    total = calculate_sum(numbers)
+    return total / len(numbers)
 
 
-def calculate_max(numbers):
-    largest = numbers[0]
-    for num in numbers:
-        if num > largest:
-            largest = num
-    return largest
+def find_maximum(numbers):
+    """Finds and returns the maximum value using a loop."""
+    max_val = numbers[0]
+    for num in numbers[1:]:
+        if num > max_val:
+            max_val = num
+    return max_val
 
 
-def calculate_min(numbers):
-    smallest = numbers[0]
-    for num in numbers:
-        if num < smallest:
-            smallest = num
-    return smallest
+def find_minimum(numbers):
+    """Finds and returns the minimum value using a loop."""
+    min_val = numbers[0]
+    for num in numbers[1:]:
+        if num < min_val:
+            min_val = num
+    return min_val
 
 
 def main():
     n = int(input("How many numbers? "))
 
+    # N must be a positive integer
     if n <= 0:
-        print("Error: N must be a positive integer.")
+        print("Error: Number of elements must be greater than 0.")
         return
 
     numbers = []
-    for i in range(n):
-        value = float(input(f"Enter number {i + 1}: "))
-        numbers.append(value)
+    for i in range(1, n + 1):
+        num = float(input(f"Enter number {i}: "))
+        # Format whole numbers cleanly as ints
+        if num.is_integer():
+            num = int(num)
+        numbers.append(num)
 
     print("\nResults:")
-    print(f"Sum:     {calculate_sum(numbers):g}")
-    print(f"Average: {calculate_average(numbers):g}")
-    print(f"Maximum: {calculate_max(numbers):g}")
-    print(f"Minimum: {calculate_min(numbers):g}")
+    print(f"Sum:     {calculate_sum(numbers)}")
+    print(f"Average: {calculate_average(numbers)}")
+    print(f"Maximum: {find_maximum(numbers)}")
+    print(f"Minimum: {find_minimum(numbers)}")
 
 
 if __name__ == "__main__":
