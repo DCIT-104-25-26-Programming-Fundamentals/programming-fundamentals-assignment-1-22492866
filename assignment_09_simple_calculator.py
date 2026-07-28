@@ -68,43 +68,52 @@
 # YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
 # =============================================================================
 
+
 def add(a, b):
+    """Returns the sum of two numbers."""
     return a + b
 
 
 def subtract(a, b):
+    """Returns the difference of two numbers."""
     return a - b
 
 
 def multiply(a, b):
+    """Returns the product of two numbers."""
     return a * b
 
 
 def divide(a, b):
-    """Divide a by b, raising ValueError on division by zero."""
+    """
+    Returns the quotient of two numbers rounded to 2 decimal places.
+    Raises ZeroDivisionError if b is zero.
+    """
     if b == 0:
-        raise ValueError("Cannot divide by zero.")
+        raise ZeroDivisionError("Cannot divide by zero.")
     return round(a / b, 2)
 
 
 def modulus(a, b):
+    """
+    Returns the remainder of division of two numbers.
+    Raises ZeroDivisionError if b is zero.
+    """
     if b == 0:
-        raise ValueError("Cannot compute modulus with zero divisor.")
+        raise ZeroDivisionError("Cannot perform modulus by zero.")
     return a % b
 
 
-def exponentiate(a, b):
+def power(a, b):
+    """Returns a raised to the power of b."""
     return a ** b
 
 
-def get_numbers():
-    """Prompt for and return two numbers from the user."""
-    first = float(input("Enter first number : "))
-    second = float(input("Enter second number: "))
-    return first, second
-
-
-def print_menu():
+# -----------------------------------------------------------------------------
+# MENU AND HELPER FUNCTIONS
+# -----------------------------------------------------------------------------
+def display_menu():
+    """Displays the calculator menu choices."""
     print("\n============================")
     print("     SIMPLE CALCULATOR")
     print("============================")
@@ -117,41 +126,65 @@ def print_menu():
     print("7. Quit")
 
 
-def format_number(num):
-    """Display whole numbers without a trailing .0"""
-    return int(num) if num == int(num) else num
+def get_numbers():
+    """Helper function to prompt and return two floating-point numbers."""
+    num1 = float(input("Enter first number : "))
+    num2 = float(input("Enter second number: "))
+    return num1, num2
 
 
+def format_num(val):
+    """Formats float values to display as integers if they are whole numbers."""
+    return int(val) if isinstance(val, float) and val.is_integer() else val
+
+
+# -----------------------------------------------------------------------------
+# MAIN PROGRAM LOOP
+# -----------------------------------------------------------------------------
 def main():
-    operations = {
-        "1": ("+", add),
-        "2": ("-", subtract),
-        "3": ("*", multiply),
-        "4": ("/", divide),
-        "5": ("%", modulus),
-        "6": ("**", exponentiate),
-    }
-
     while True:
-        print_menu()
+        display_menu()
         choice = input("Select an operation (1-7): ").strip()
 
         if choice == "7":
             print("Goodbye!")
             break
 
-        if choice not in operations:
-            print("Error: Invalid choice. Please select a number between 1 and 7.")
-            continue
+        if choice in ("1", "2", "3", "4", "5", "6"):
+            try:
+                num1, num2 = get_numbers()
+                n1_fmt, n2_fmt = format_num(num1), format_num(num2)
 
-        symbol, operation = operations[choice]
+                if choice == "1":
+                    res = add(num1, num2)
+                    print(f"Result: {n1_fmt} + {n2_fmt} = {format_num(res)}")
 
-        try:
-            a, b = get_numbers()
-            result = operation(a, b)
-            print(f"Result: {format_number(a)} {symbol} {format_number(b)} = {format_number(result)}")
-        except ValueError as e:
-            print(f"Error: {e}")
+                elif choice == "2":
+                    res = subtract(num1, num2)
+                    print(f"Result: {n1_fmt} - {n2_fmt} = {format_num(res)}")
+
+                elif choice == "3":
+                    res = multiply(num1, num2)
+                    print(f"Result: {n1_fmt} * {n2_fmt} = {format_num(res)}")
+
+                elif choice == "4":
+                    res = divide(num1, num2)
+                    print(f"Result: {n1_fmt} / {n2_fmt} = {res}")
+
+                elif choice == "5":
+                    res = modulus(num1, num2)
+                    print(f"Result: {n1_fmt} % {n2_fmt} = {format_num(res)}")
+
+                elif choice == "6":
+                    res = power(num1, num2)
+                    print(f"Result: {n1_fmt} ** {n2_fmt} = {format_num(res)}")
+
+            except ZeroDivisionError as e:
+                print(f"Error: {e}")
+            except ValueError:
+                print("Error: Invalid number entered. Please enter numeric values.")
+        else:
+            print("Error: Invalid option! Please select a number from 1 to 7.")
 
 
 if __name__ == "__main__":
